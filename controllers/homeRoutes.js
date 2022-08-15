@@ -70,6 +70,11 @@ router.get('/blog/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+// Signup-----------------------------------------------------------------------------------------
+router.get('/signup', (req, res) => {
+
+  res.render('signup');
+});
 // Login, if already logged in, redirect to dashboard--------------------------------------------
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
