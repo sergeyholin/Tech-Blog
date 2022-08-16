@@ -2,6 +2,12 @@ const router = require('express').Router();
 const { Blog } = require('../../models');
 // const withAuth = require('../../utils/auth');
 
+// Display new Blog page
+router.get('/newBlog', (req, res) => {
+
+  res.render('newBlog');
+});
+// ------------------
 // Create Blog-----------------------------------------------------------------------------
 // router.post('/', withAuth, async (req, res) => {
   router.post('/', async (req, res) => {
