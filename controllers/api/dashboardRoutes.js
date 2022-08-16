@@ -1,16 +1,15 @@
 const router = require('express').Router();
 const { Blog } = require('../../models');
-// const withAuth = require('../../utils/auth');
+const withAuth = require('../../utils/auth');
 
 // Display new Blog page
-router.get('/newBlog', (req, res) => {
+router.get('/', (req, res) => {
 
   res.render('newBlog');
 });
-// ------------------
 // Create Blog-----------------------------------------------------------------------------
-// router.post('/', withAuth, async (req, res) => {
-  router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
+  // router.post('/', async (req, res) => {
   try {
     const newBlog = await Blog.create({
       ...req.body,
@@ -59,32 +58,5 @@ router.put('/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
-// Get One Blog----------------------------------------------------------------------------------
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const blogData = await Blog.findOne({
-//     where: {
-//       id: req.params.id,
-//       // user_id: req.session.user_id,
-//     },
-//     });
 
-//     res.status(200).json(blogData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-// Get all blogs---------------------------------------------------------------------------------
-// router.get('/', async (req, res) => {
-//   try {
-//     const blogData = await Blog.findAll({
-//     // include: {model: Product}
-//   });
-
-//     res.status(200).json(blogData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-// ----------------------------------------------------------------------------------------------
 module.exports = router;

@@ -7,15 +7,15 @@
         <span class="navbar-brand mb-0 h1">Welcome, {{name}}! Here are your current blogs:</span>
     </div>
     </nav>
-    <a href="/api/dashboard/newBlog" class="btn btn-primary">New Blog</a>
+    <a href="/api/dashboard/" class="btn btn-primary">New Blog</a>
     {{!-- Welcome End --}}
     {{!-- Blog Card --}}
-    {{#if blogs.length}}
+    {{!-- {{#if blogs.length}} --}}
     {{#each blogs as |blog|}}
     <div class="card" style= "margin-top: 10px;">
     <div class="card-header">
     <a href="/blog/{{blog.id}}"><h5>{{blog.name}}</h5></a>
-    <p>Created by {{blog.user.name}} on {{format_date blog.date_created}}</p>
+    <p>Created on {{format_date blog.date_created}}</p>
     </div>
     <div class="card-body">
         <!-- <h5 class="card-title">Special title treatment</h5> -->
@@ -24,7 +24,7 @@
     </div>
     </div>
     {{/each}}
-    {{/if}}
+    {{!-- {{/if}} --}}
     {{!-- Blog Card End --}}
     </div>
     </div>

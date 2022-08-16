@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Blog, User } = require('../models');
 // const withAuth = require('../utils/auth');
 
-// Get all Blogs with user data--------------------------------------------------------
+// View all blogs with user data on the Homepage-----------------------------------------------
 router.get('/', async (req, res) => {
   try {
     // Get all blogs and JOIN with user data
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-// Get Blog by id with user data-----------------------------------------------------
+// View one blog  with user data on the Homepage------------------------------------------------
 router.get('/blog/:id', async (req, res) => {
   try {
     const blogData = await Blog.findByPk(req.params.id, {
@@ -43,16 +43,22 @@ router.get('/blog/:id', async (req, res) => {
 
     // res.status(200).json(blogData);
     res.render('blog', {
-      ...blog,
-      // logged_in: req.session.logged_in
+      blog,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
-// Login to dashboard as a user------------------------------------------------------------------- Use withAuth middleware to prevent access to route
+// Login to dashboard as a user------------------------------------------------------------------- 
 // router.get('/profile', withAuth, async (req, res) => {
   router.get('/dashboard', async (req, res) => {
+    // 
+    if (!req.session.logged_in) {
+      res.redirect('/login');
+      return;
+    }
+    // 
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
@@ -70,11 +76,13 @@ router.get('/blog/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 // Signup-----------------------------------------------------------------------------------------
 router.get('/signup', (req, res) => {
 
   res.render('signup');
 });
+
 // Login, if already logged in, redirect to dashboard--------------------------------------------
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
