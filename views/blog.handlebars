@@ -1,12 +1,23 @@
-
-<div class="card" style= "margin-top: 10px;">
-  <div class="card-header">
-  <a href="/blog/{{blog.id}}"><h5>{{blog.name}}</h5></a>
-  <p>Created by {{blog.user.name}} on </p>
-  </div>
-  <div class="card-body">
-    <!-- <h5 class="card-title">Special title treatment</h5> -->
-    <p class="card-text">{{blog.description}}</p>
-    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-  </div>
+<div class="card" style="margin-top:10px;">
+  <form class="form newBlog-form">
+    <div class="card-header form-group">
+      <input class="form-control form-control-lg form-input" id="title" type="text" placeholder="{{blog.name}}" aria-label=".form-control-lg example">
+    </div>
+    <div class="card-body bg-light form-group" >
+      <div class="mb-3">
+      <textarea class="form-control form-input" id="description" rows="3" type="text" >{{blog.description}}</textarea>
+      </div>
+      <div class="update" style="margin-top:10px;">
+      <button type="submit" class="btn btn-primary btn-block" data-id="{{blog.id}}">Update</button>
+      </div>
+      <div class="delete" style="margin-top:10px;">
+      <button  type="submit" class="btn btn-primary btn-block" data-id2="{{blog.id}}">Delete</button>
+      </div>
+    </div>
+  </form>
 </div>
+
+<script src="/js/delete_blog.js"></script>
+<script src="/js/update_blog.js"></script>
+
+

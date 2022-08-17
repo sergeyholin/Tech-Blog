@@ -1,0 +1,16 @@
+    <div class="card" style="margin-top:10px; margin-left: 10px; margin-right:10px;" >
+      <div class="card-header">
+       <h5>{{blog.name}}</h5>
+       <p>Created by {{blog.user.name}} on {{format_date blog.date_created}}</p>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{blog.description}}</p>
+      </div>
+    </div>
+
+    <div class="card-body bg-light form-group" style="margin-top:10px; margin-left: 10px; margin-right:10px;">
+      <div class="mb-3">
+      <textarea class="form-control form-input" id="description" rows="3" placeholder="Text" type="text" ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="margin-top:10px; margin-left:550px;">+ Add Comment</button>
+    </div>

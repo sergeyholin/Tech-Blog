@@ -2,7 +2,58 @@ const router = require('express').Router();
 const { Blog, User } = require('../models');
 // const withAuth = require('../utils/auth');
 
-// View all blogs with user data on the Homepage-----------------------------------------------
+// ==============================================================================================
+// Login to dashboard as a user------------------------------------------------------------------ 
+// router.get('/profile', withAuth, async (req, res) => {
+  router.get('/api/dashboard', async (req, res) => {
+    // 
+    if (!req.session.logged_in) {
+      res.redirect('/login');
+      return;
+    }
+    // 
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Blog }],
+    });
+
+    const user = userData.get({ plain: true });
+
+    res.render('dashboard', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// View one blog  with user data in Dashboard-------------------------------------------------------
+router.get('/api/dashboard/blog/:id', async (req, res) => {
+  try {
+    const blogData = await Blog.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    const blog = blogData.get({ plain: true });
+
+    // res.status(200).json(blogData);
+    res.render('blog', {
+      blog,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// ===============================================================================================
+// View all blogs with user data on the Homepage-------------------------------------------------
 router.get('/', async (req, res) => {
   try {
     // Get all blogs and JOIN with user data
@@ -27,8 +78,8 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-// View one blog  with user data on the Homepage------------------------------------------------
-router.get('/blog/:id', async (req, res) => {
+// View one blog in the Homepage with an ability to comment-----------------------------------------
+router.get('/comment/:id', async (req, res) => {
   try {
     const blogData = await Blog.findByPk(req.params.id, {
       include: [
@@ -42,7 +93,7 @@ router.get('/blog/:id', async (req, res) => {
     const blog = blogData.get({ plain: true });
 
     // res.status(200).json(blogData);
-    res.render('blog', {
+    res.render('comment', {
       blog,
       logged_in: req.session.logged_in
     });
@@ -50,48 +101,20 @@ router.get('/blog/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
-// Login to dashboard as a user------------------------------------------------------------------- 
-// router.get('/profile', withAuth, async (req, res) => {
-  router.get('/dashboard', async (req, res) => {
-    // 
-    if (!req.session.logged_in) {
-      res.redirect('/login');
-      return;
-    }
-    // 
-  try {
-    // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Blog }],
-    });
-
-    const user = userData.get({ plain: true });
-
-    res.render('dashboard', {
-      ...user,
-      logged_in: true
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// Signup-----------------------------------------------------------------------------------------
+// Signup-------------------------------------------------------------------------------------------
 router.get('/signup', (req, res) => {
 
   res.render('signup');
 });
-
-// Login, if already logged in, redirect to dashboard--------------------------------------------
+// Login--------------------------------------------------------------------------------------------
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
   if (req.session.logged_in) {
-    res.redirect('/dashboard');
+    res.redirect('/api/dashboard/');
     return;
   }
 
   res.render('login');
 });
-
+// -------------------------------------------------------------------------------------------------
 module.exports = router;

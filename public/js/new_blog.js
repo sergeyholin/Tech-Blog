@@ -6,13 +6,13 @@ const newBlogFormHandler = async (event) => {
     const description = document.querySelector('#description').value.trim();
   
     if (name && description) {
-      const response = await fetch('/api/dashboard/', {
+      const response = await fetch('/api/dashboard/new', {
         method: 'POST',
         body: JSON.stringify({ name, description }),
         headers: { 'Content-Type': 'application/json' },
       });
       if (response.ok) {
-        document.location.replace('/dashboard');
+        document.location.replace('/api/dashboard');
       } else {
         alert(response.statusText);
       }
