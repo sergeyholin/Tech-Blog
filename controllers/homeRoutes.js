@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Blog, User } = require('../models');
+const { Blog, User, Comment } = require('../models');
 // const withAuth = require('../utils/auth');
 
 // ==============================================================================================
@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
     const blogData = await Blog.findAll({
       include: [
         {
-          model: User,
+          model: User, 
           attributes: ['name'],
         },
       ],
@@ -79,20 +79,94 @@ router.get('/', async (req, res) => {
   }
 });
 // View one blog in the Homepage with an ability to comment-----------------------------------------
+// router.get('/comment/:id', async (req, res) => {
+//   try {
+//     const blogData = await Blog.findByPk(req.params.id, {
+//       include: [
+//         {
+//           model: User,
+//           attributes: ['name'],
+//         },
+//       ],
+//     });
+
+//     const blog = blogData.get({ plain: true });
+
+//     // res.status(200).json(blogData);
+//     res.render('comment', {
+//       blog,
+//       logged_in: req.session.logged_in
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+// *************************************************************************************************
+// TESTING ROUTE TO SEE COMMENTS
+router.get('/comments', async (req, res) => {
+  try {
+    // Get all blogs and JOIN with user data
+    const commentData = await Comment.findAll({
+      // include: [
+      //   {
+      //     model: Comment, 
+      //     // attributes: ['body'],
+      //   },
+      // ],
+    });
+
+    // Serialize data so the template can read it
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
+
+    res.status(200).json(commentData);
+    // Pass serialized data and session flag into template
+    // res.render('homepage', { 
+    //   comments, 
+    //   logged_in: req.session.logged_in 
+    // });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// *************************************************************************************************
+// MAKE COMMENT
+// router.post('/', withAuth, async (req, res) => {
+  router.post('/comment', async (req, res) => {
+  try {
+
+    const commentData = await Comment.create({
+      ...req.body,
+      user_id: req.session.user_id,
+    });
+
+    res.status(200).json(commentData);
+
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+// *************************************************************************************************
 router.get('/comment/:id', async (req, res) => {
   try {
     const blogData = await Blog.findByPk(req.params.id, {
       include: [
+        User, 
         {
-          model: User,
-          attributes: ['name'],
+          model: Comment,
+          inclue: [User],
         },
       ],
     });
 
+    if (!blogData) {
+      res.status(404).json({ message: 'There is no post with that id!' });
+      return;
+    }
+
+    // res.status(200).json(postData);
+
     const blog = blogData.get({ plain: true });
 
-    // res.status(200).json(blogData);
     res.render('comment', {
       blog,
       logged_in: req.session.logged_in
@@ -101,6 +175,7 @@ router.get('/comment/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+// *************************************************************************************************
 // Signup-------------------------------------------------------------------------------------------
 router.get('/signup', (req, res) => {
 

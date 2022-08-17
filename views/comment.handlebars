@@ -8,9 +8,20 @@
       </div>
     </div>
 
+      {{#each comments as |comment|}}
     <div class="card-body bg-light form-group" style="margin-top:10px; margin-left: 10px; margin-right:10px;">
-      <div class="mb-3">
-      <textarea class="form-control form-input" id="description" rows="3" placeholder="Text" type="text" ></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" style="margin-top:10px; margin-left:550px;">+ Add Comment</button>
+    <div class="mb-3">
+    <textarea class="form-control form-input" id="body" rows="3" placeholder="Text" type="text" >{{comment.body}}</textarea>
     </div>
+      {{/each}}
+
+    <form class="form newComment-form">
+    <div class="card-body bg-light form-group" style="margin-top:10px; margin-left: 10px; margin-right:10px;">
+    <div class="mb-3">
+    <textarea class="form-control form-input" id="body" rows="3" placeholder="Text" type="text" ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top:10px; margin-left:550px;" data-id="{{blog.id}}">+ Add Comment</button>
+    </div>
+    </form>
+
+    <script src="/js/comment.js"></script>
