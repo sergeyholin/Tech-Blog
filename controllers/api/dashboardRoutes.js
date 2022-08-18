@@ -53,8 +53,10 @@ router.get('/blog/:id', async (req, res) => {
 });
 // DISPLAY CREATE NEW BLOG PAGE-----------------------------------------------------------------------------
 router.get('/new', (req, res) => {
-
-  res.render('newBlog');
+  
+  res.render('newBlog', {
+    logged_in: req.session.logged_in
+  })
 });
 // CREATE NEW BLOG------------------------------------------------------------------------------------------
 // router.post('/new', withAuth, async (req, res) => {
