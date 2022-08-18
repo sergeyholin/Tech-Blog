@@ -1,5 +1,5 @@
-// Update blog script
-const updateBlogFormHandler = async (event) => {
+// UPDATE BLOG SCRIPT
+const updateBlog = async (event) => {
   event.preventDefault();
 
   if (event.target.hasAttribute('data-id')) {
@@ -25,4 +25,4 @@ const updateBlogFormHandler = async (event) => {
   
   document
     .querySelector('.update')
-    .addEventListener('click', updateBlogFormHandler);
+    .addEventListener('click', updateBlog);

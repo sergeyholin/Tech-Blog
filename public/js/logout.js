@@ -1,4 +1,4 @@
-// Front-end logout script
+// LOGOUT SCRIPT
 const logout = async () => {
   const response = await fetch('/api/users/logout', {
     method: 'POST',

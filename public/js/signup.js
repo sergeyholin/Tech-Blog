@@ -1,4 +1,4 @@
-// Front-end signup script
+// SIGNUP SCRIPT
 const signupFormHandler = async (event) => {
     event.preventDefault();
   

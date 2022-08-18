@@ -1,4 +1,4 @@
-// Create new blog script
+// CREATE NEW BLOG SCRIPT
 const newBlogFormHandler = async (event) => {
     event.preventDefault();
   
