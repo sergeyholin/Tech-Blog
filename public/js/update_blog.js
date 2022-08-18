@@ -23,6 +23,6 @@ const updateBlog = async (event) => {
   }
 };
   
-  document
-    .querySelector('.update')
-    .addEventListener('click', updateBlog);
+document
+  .querySelector('.update')
+  .addEventListener('click', updateBlog);

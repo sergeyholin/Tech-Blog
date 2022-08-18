@@ -66,22 +66,6 @@ router.post('/comments/:blog_id', async (req, res) => {
     res.status(400).json(err.message);
   }
   });
-// *********************************************************************************************** 
-// TESTING ROUTE TO FIND ALL COMMENTS
-router.get('/comments', async (req, res) => {
-  try {
-
-    const commentData = await Comment.findAll({});
-
-    const comments = commentData.map((comment) => comment.get({ plain: true }));
-
-    res.status(200).json(commentData);
-
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-// *************************************************************************************************
 // Signup-------------------------------------------------------------------------------------------
 router.get('/signup', (req, res) => {
 
@@ -98,4 +82,20 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 // -------------------------------------------------------------------------------------------------
+// *********************************************************************************************** 
+// TESTING ROUTE TO FIND ALL COMMENTS
+// router.get('/comments', async (req, res) => {
+//   try {
+
+//     const commentData = await Comment.findAll({});
+
+//     const comments = commentData.map((comment) => comment.get({ plain: true }));
+
+//     res.status(200).json(commentData);
+
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+// *************************************************************************************************
 module.exports = router;
