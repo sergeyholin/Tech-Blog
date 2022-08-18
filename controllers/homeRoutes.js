@@ -68,19 +68,20 @@ router.post('/comments/:blog_id', async (req, res) => {
   });
 // *********************************************************************************************** 
 // TESTING ROUTE TO FIND ALL COMMENTS
-// router.get('/comments', async (req, res) => {
-//   try {
+router.get('/comments', async (req, res) => {
+  try {
 
-//     const commentData = await Comment.findAll({});
+    const commentData = await Comment.findAll({});
 
-//     const comments = commentData.map((comment) => comment.get({ plain: true }));
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
 
-//     res.status(200).json(commentData);
+    res.status(200).json(commentData);
 
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// *************************************************************************************************
 // Signup-------------------------------------------------------------------------------------------
 router.get('/signup', (req, res) => {
 
